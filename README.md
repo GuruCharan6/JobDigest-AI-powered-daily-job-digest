@@ -10,6 +10,10 @@
 [![Groq](https://img.shields.io/badge/Groq-LLaMA_3.3_70B-F55036?style=flat-square)](https://groq.com)
 [![Resend](https://img.shields.io/badge/Email-Resend-000000?style=flat-square)](https://resend.com)
 
+---
+
+### 🎬 [Watch the Demo on Loom](https://www.loom.com/share/d386efc3bd3346df92d4af82c8b58dfc)
+
 </div>
 
 ---
@@ -189,4 +193,3 @@ CREATE INDEX IF NOT EXISTS jobs_combo_key_idx ON jobs(combo_key);
 ## License
 
 MIT — free to fork and build on.
-
