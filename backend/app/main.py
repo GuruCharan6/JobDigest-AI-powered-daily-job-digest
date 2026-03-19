@@ -40,3 +40,7 @@ app.include_router(resume.router,  prefix="/profile", tags=["resume"])
 @app.get("/health")
 def health():
     return {"status": "ok"}
+    
+@app.get("/")
+def root():
+    return {"status": "ok"}
