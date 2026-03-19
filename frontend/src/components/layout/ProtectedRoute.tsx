@@ -4,12 +4,10 @@ import Navbar from './Navbar'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
-  requireOnboarding?: boolean
 }
 
 export default function ProtectedRoute({
   children,
-  requireOnboarding: _requireOnboarding = true,
 }: ProtectedRouteProps) {
   const { user, loading } = useAuthStore()
 
