@@ -25,7 +25,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_url],
+    allow_origins=[settings.frontend_url, "https://jod-feed-ai-powered-daily-job-diges.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,7 +40,7 @@ app.include_router(resume.router,  prefix="/profile", tags=["resume"])
 @app.get("/health")
 def health():
     return {"status": "ok"}
-    
+
 @app.get("/")
 def root():
     return {"status": "ok"}
