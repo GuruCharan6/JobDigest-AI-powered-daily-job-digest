@@ -13,8 +13,6 @@ interface Props {
   onChange: (locations: string[], remote: boolean) => void
 }
 
-const mono: React.CSSProperties = { fontFamily: "'JetBrains Mono', monospace" }
-
 export default function Step4Location({ locations, remote, onChange }: Props) {
   const [input, setInput] = useState('')
 
@@ -32,37 +30,22 @@ export default function Step4Location({ locations, remote, onChange }: Props) {
   const filtered = POPULAR.filter(p => !locations.includes(p) && p.toLowerCase().includes(input.toLowerCase()))
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', ...mono }}>
+    <div className="flex flex-col gap-4">
 
       {/* Location tag input */}
       <div>
-        <label style={{ fontSize: '10px', color: '#888', letterSpacing: '0.16em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
-          Preferred Locations <span style={{ color: '#555' }}>({locations.length}/5)</span>
+        <label className="text-sm font-medium text-foreground block mb-2">
+          Preferred Locations <span className="text-muted-foreground">({locations.length}/5)</span>
         </label>
         <div
-          style={{
-            minHeight: '56px', padding: '10px 12px',
-            background: '#0a0a0a', border: '1px solid #1e1e1e',
-            display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center',
-            cursor: 'text',
-          }}
+          className="min-h-[52px] p-2.5 bg-card border border-border rounded-lg flex flex-wrap gap-1.5 items-center cursor-text transition-colors duration-150"
           onClick={() => document.getElementById('loc-input')?.focus()}
         >
           {locations.map(loc => (
-            <span key={loc} style={{
-              display: 'inline-flex', alignItems: 'center', gap: '5px',
-              padding: '3px 9px', fontSize: '11px',
-              background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.25)',
-              color: '#00d4ff',
-            }}>
+            <span key={loc} className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium bg-primary/10 border border-primary/20 text-primary rounded-full">
               <MapPin size={10} /> {loc}
-              <button type="button" onClick={() => remove(loc)} style={{
-                background: 'none', border: 'none', color: '#555', cursor: 'pointer', padding: 0, display: 'flex',
-              }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#ff4444')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#555')}
-              >
-                <X size={10} strokeWidth={3} />
+              <button type="button" onClick={() => remove(loc)} className="text-muted-foreground hover:text-destructive cursor-pointer p-0 flex items-center transition-colors">
+                <X size={10} strokeWidth={2} />
               </button>
             </span>
           ))}
@@ -73,13 +56,10 @@ export default function Step4Location({ locations, remote, onChange }: Props) {
             onKeyDown={onKey}
             placeholder={locations.length === 0 ? 'e.g. Bangalore, Mumbai…' : 'Add another…'}
             disabled={locations.length >= 5}
-            style={{
-              flex: '1 1 140px', background: 'transparent', border: 'none',
-              outline: 'none', fontSize: '12px', color: '#e0e0e0', padding: '2px 0', ...mono,
-            }}
+            className="flex-1 min-w-[140px] bg-transparent border-none outline-none text-sm text-foreground py-0.5 placeholder:text-muted-foreground disabled:opacity-40 disabled:cursor-not-allowed"
           />
         </div>
-        <p style={{ marginTop: '6px', fontSize: '10px', color: '#555', letterSpacing: '0.08em' }}>
+        <p className="mt-1.5 text-xs text-muted-foreground tracking-wide">
           Press Enter to add · Up to 5 cities
         </p>
       </div>
@@ -87,21 +67,14 @@ export default function Step4Location({ locations, remote, onChange }: Props) {
       {/* Popular cities */}
       {filtered.length > 0 && (
         <div>
-          <p style={{ fontSize: '10px', color: '#555', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px' }}>
-            // popular_cities
+          <p className="text-xs font-medium text-muted-foreground tracking-wide mb-2">
+            Popular cities
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          <div className="flex flex-wrap gap-1.5">
             {filtered.slice(0, 10).map(loc => (
               <button key={loc} type="button" onClick={() => add(loc)}
                 disabled={locations.length >= 5}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '5px',
-                  padding: '4px 10px', fontSize: '11px',
-                  background: 'transparent', border: '1px solid #1e1e1e',
-                  color: '#555', cursor: 'pointer', transition: 'all 0.1s', ...mono,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#00d4ff'; e.currentTarget.style.color = '#00d4ff'; e.currentTarget.style.background = 'rgba(0,212,255,0.06)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#1e1e1e'; e.currentTarget.style.color = '#555'; e.currentTarget.style.background = 'transparent' }}
+                className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium bg-card border border-border text-muted-foreground rounded-full hover:border-primary/30 hover:text-primary hover:bg-primary/10 transition-all duration-150 cursor-pointer disabled:opacity-40"
               >
                 <MapPin size={10} /> {loc}
               </button>
@@ -110,59 +83,48 @@ export default function Step4Location({ locations, remote, onChange }: Props) {
         </div>
       )}
 
-      {/* Divider */}
-      <div style={{ height: '1px', background: '#1e1e1e' }} />
-
       {/* Remote toggle */}
       <button
         type="button"
         onClick={() => onChange(locations, !remote)}
-        style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '16px', cursor: 'pointer',
-          background: remote ? 'rgba(0,212,255,0.06)' : '#0a0a0a',
-          border: `1px solid ${remote ? 'rgba(0,212,255,0.3)' : '#1e1e1e'}`,
-          transition: 'all 0.1s', width: '100%',
-        }}
+        className={`
+          flex items-center justify-between p-4 rounded-xl border-[1.5px] w-full cursor-pointer
+          transition-all duration-150 text-left
+          ${remote ? 'bg-primary/10 border-primary/25' : 'bg-card border-border hover:bg-secondary/50'}
+        `}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{
-            width: '36px', height: '36px',
-            background: remote ? 'rgba(0,212,255,0.1)' : '#111',
-            border: `1px solid ${remote ? 'rgba(0,212,255,0.3)' : '#1e1e1e'}`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'all 0.1s',
-          }}>
-            <Wifi size={16} color={remote ? '#00d4ff' : '#555'} />
+        <div className="flex items-center gap-3.5">
+          <div className={`
+            w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-150
+            ${remote ? 'bg-primary/10' : 'bg-secondary border border-border'}
+          `}>
+            <Wifi size={18} className={remote ? 'text-primary' : 'text-muted-foreground'} />
           </div>
-          <div style={{ textAlign: 'left' }}>
-            <p style={{ fontSize: '12px', fontWeight: 600, color: '#e0e0e0', marginBottom: '2px' }}>Include Remote Jobs</p>
-            <p style={{ fontSize: '11px', color: '#555' }}>Get remote-friendly opportunities worldwide</p>
+          <div>
+            <p className="text-sm font-semibold text-foreground mb-0.5">Include Remote Jobs</p>
+            <p className="text-xs text-muted-foreground">Get remote-friendly opportunities worldwide</p>
           </div>
         </div>
 
         {/* Toggle */}
-        <div style={{
-          width: '40px', height: '22px', borderRadius: '11px',
-          background: remote ? '#00d4ff' : '#1e1e1e',
-          position: 'relative', transition: 'background 0.15s', flexShrink: 0,
-          boxShadow: remote ? '0 0 8px rgba(0,212,255,0.4)' : 'none',
-        }}>
-          <div style={{
-            position: 'absolute', top: '3px',
-            left: remote ? '21px' : '3px',
-            width: '16px', height: '16px', borderRadius: '50%',
-            background: '#fff', transition: 'left 0.15s',
-          }} />
+        <div className={`
+          w-11 h-6 rounded-full relative transition-all duration-150 flex-shrink-0
+          ${remote ? 'bg-primary' : 'bg-secondary'}
+          ${remote ? 'shadow-[0_0_0_3px_hsl(var(--primary)/0.15)]' : ''}
+        `}>
+          <div className={`
+            absolute top-0.5 w-[18px] h-[18px] rounded-full bg-foreground transition-all duration-150
+            ${remote ? 'left-[19px]' : 'left-[3px]'}
+          `} />
         </div>
       </button>
 
       {/* Summary */}
       {(locations.length > 0 || remote) && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#00ff88' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
+        <div className="flex items-center gap-2 text-xs font-medium text-emerald-400">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           {locations.length > 0 && <span>{locations.length} location{locations.length > 1 ? 's' : ''}</span>}
-          {locations.length > 0 && remote && <span style={{ color: '#333' }}>·</span>}
+          {locations.length > 0 && remote && <span className="text-muted-foreground/40">·</span>}
           {remote && <span>Remote included</span>}
         </div>
       )}

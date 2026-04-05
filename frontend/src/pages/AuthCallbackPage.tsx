@@ -22,66 +22,26 @@ export default function AuthCallbackPage() {
   }, [])
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#000',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      gap: '24px',
-      fontFamily: "'JetBrains Mono', monospace",
-    }}>
+    <div className="min-h-screen bg-background flex items-center justify-center flex-col gap-6">
       {/* Logo */}
-      <div style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-        <span style={{ color: '#00d4ff' }}>Job</span>
-        <span style={{ color: '#e0e0e0' }}>Feed</span>
+      <div className="text-lg font-bold tracking-[-0.02em]">
+        <span className="text-primary">Job</span>
+        <span className="text-foreground">Digest</span>
       </div>
 
-      {/* Terminal loader */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '11px', color: '#555', letterSpacing: '0.1em' }}>
-            //
-          </span>
-          <span style={{ fontSize: '11px', color: '#888', letterSpacing: '0.1em' }}>
-            signing_you_in
-          </span>
-          <span
-            style={{
-              display: 'inline-block',
-              width: '7px',
-              height: '13px',
-              background: '#00d4ff',
-              marginLeft: '2px',
-            }}
-            className="animate-blink"
-          />
+      {/* Spinner */}
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-9 h-9">
+          <svg viewBox="0 0 36 36" fill="none" className="animate-spin-slow">
+            <circle cx="18" cy="18" r="15" stroke="hsl(var(--border))" strokeWidth="3" />
+            <path d="M18 3a15 15 0 0 1 15 15" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" />
+          </svg>
         </div>
 
-        {/* Progress bar */}
-        <div style={{ width: '200px', height: '1px', background: '#1e1e1e', overflow: 'hidden', position: 'relative' }}>
-          <div style={{
-            position: 'absolute',
-            height: '100%',
-            background: '#00d4ff',
-            boxShadow: '0 0 8px rgba(0,212,255,0.6)',
-            animation: 'authbar 1.4s ease-in-out infinite',
-          }} />
-        </div>
-
-        <div style={{ fontSize: '10px', color: '#333', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-          Authenticating session
+        <div className="text-sm text-muted-foreground font-medium">
+          Signing you in…
         </div>
       </div>
-
-      <style>{`
-        @keyframes authbar {
-          0%   { width: 0%;  left: 0%; }
-          50%  { width: 50%; left: 25%; }
-          100% { width: 0%;  left: 100%; }
-        }
-      `}</style>
     </div>
   )
 }

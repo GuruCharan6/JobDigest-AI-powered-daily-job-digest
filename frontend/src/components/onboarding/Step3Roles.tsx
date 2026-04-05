@@ -12,8 +12,6 @@ const SUGGESTIONS = [
 
 interface Props { value: string[]; onChange: (v: string[]) => void }
 
-const mono: React.CSSProperties = { fontFamily: "'JetBrains Mono', monospace" }
-
 export default function Step3Roles({ value, onChange }: Props) {
   const [input, setInput] = useState('')
 
@@ -31,37 +29,22 @@ export default function Step3Roles({ value, onChange }: Props) {
   const filtered = SUGGESTIONS.filter(s => !value.includes(s) && s.toLowerCase().includes(input.toLowerCase()))
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', ...mono }}>
+    <div className="flex flex-col gap-4">
 
       {/* Tag input */}
       <div>
-        <label style={{ fontSize: '10px', color: '#888', letterSpacing: '0.16em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
-          Target Roles <span style={{ color: '#555' }}>({value.length}/10)</span>
+        <label className="text-sm font-medium text-foreground block mb-2">
+          Target Roles <span className="text-muted-foreground">({value.length}/10)</span>
         </label>
         <div
-          style={{
-            minHeight: '56px', padding: '10px 12px',
-            background: '#0a0a0a', border: '1px solid #1e1e1e',
-            display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center',
-            cursor: 'text',
-          }}
+          className="min-h-[52px] p-2.5 bg-card border border-border rounded-lg flex flex-wrap gap-1.5 items-center cursor-text transition-colors duration-150"
           onClick={() => document.getElementById('role-input')?.focus()}
         >
           {value.map(role => (
-            <span key={role} style={{
-              display: 'inline-flex', alignItems: 'center', gap: '5px',
-              padding: '3px 9px', fontSize: '11px',
-              background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.25)',
-              color: '#00d4ff',
-            }}>
+            <span key={role} className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium bg-primary/10 border border-primary/20 text-primary rounded-full">
               {role}
-              <button type="button" onClick={() => remove(role)} style={{
-                background: 'none', border: 'none', color: '#555', cursor: 'pointer', padding: 0, display: 'flex',
-              }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#ff4444')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#555')}
-              >
-                <X size={10} strokeWidth={3} />
+              <button type="button" onClick={() => remove(role)} className="text-muted-foreground hover:text-destructive cursor-pointer p-0 flex items-center transition-colors">
+                <X size={10} strokeWidth={2} />
               </button>
             </span>
           ))}
@@ -71,13 +54,10 @@ export default function Step3Roles({ value, onChange }: Props) {
             onChange={e => setInput(e.target.value)}
             onKeyDown={onKey}
             placeholder={value.length === 0 ? 'e.g. Frontend Developer…' : 'Add more…'}
-            style={{
-              flex: '1 1 160px', background: 'transparent', border: 'none',
-              outline: 'none', fontSize: '12px', color: '#e0e0e0', padding: '2px 0', ...mono,
-            }}
+            className="flex-1 min-w-[160px] bg-transparent border-none outline-none text-sm text-foreground py-0.5 placeholder:text-muted-foreground"
           />
         </div>
-        <p style={{ marginTop: '6px', fontSize: '10px', color: '#555', letterSpacing: '0.08em' }}>
+        <p className="mt-1.5 text-xs text-muted-foreground tracking-wide">
           Press Enter to add · Backspace to remove last
         </p>
       </div>
@@ -85,21 +65,13 @@ export default function Step3Roles({ value, onChange }: Props) {
       {/* Suggestions */}
       {filtered.length > 0 && (
         <div>
-          <p style={{ fontSize: '10px', color: '#555', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px' }}>
-            // suggestions
+          <p className="text-xs font-medium text-muted-foreground tracking-wide mb-2">
+            Suggestions
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          <div className="flex flex-wrap gap-1.5">
             {filtered.slice(0, 14).map(r => (
-              <button key={r} type="button" onClick={() => add(r)} style={{
-                display: 'inline-flex', alignItems: 'center', gap: '5px',
-                padding: '4px 10px', fontSize: '11px',
-                background: 'transparent', border: '1px solid #1e1e1e',
-                color: '#555', cursor: 'pointer', transition: 'all 0.1s', ...mono,
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#00d4ff'; e.currentTarget.style.color = '#00d4ff'; e.currentTarget.style.background = 'rgba(0,212,255,0.06)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#1e1e1e'; e.currentTarget.style.color = '#555'; e.currentTarget.style.background = 'transparent' }}
-              >
-                <Plus size={10} strokeWidth={3} /> {r}
+              <button key={r} type="button" onClick={() => add(r)} className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium bg-card border border-border text-muted-foreground rounded-full hover:border-primary/30 hover:text-primary hover:bg-primary/10 transition-all duration-150 cursor-pointer">
+                <Plus size={11} strokeWidth={2.5} /> {r}
               </button>
             ))}
           </div>
@@ -107,8 +79,8 @@ export default function Step3Roles({ value, onChange }: Props) {
       )}
 
       {value.length > 0 && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#00d4ff' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
+        <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           {value.length} role{value.length > 1 ? 's' : ''} targeted
         </div>
       )}

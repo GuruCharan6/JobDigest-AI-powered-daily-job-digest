@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/guruc/.claude/plugins/marketplaces/ui-ux-pro-max-skill/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python3 scripts/search.py \"SaaS job board daily digest professional clean\" --design-system -p \"JobFeed\" -f markdown)",
+      "Bash(npm install:*)",
+      "Bash(npx vite:*)",
+      "Bash(npm run:*)",
+      "Read(//c/Users/guruc/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python3 skills/ui-ux-pro-max/scripts/search.py \"job search career AI matching tool dark modern\" --design-system -p \"JobFeed\")",
+      "Bash(python search.py \"job search career AI matching tool dark modern\" --design-system -p \"JobFeed\")",
+      "Bash(python search.py \"hero social proof features how it works pricing\" --domain landing)"
+    ]
+  }
+}

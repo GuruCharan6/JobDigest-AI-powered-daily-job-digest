@@ -26,25 +26,6 @@ function App() {
     <BrowserRouter>
       <Toaster
         position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '11px',
-            borderRadius: '0',
-            background: '#111',
-            color: '#e0e0e0',
-            border: '1px solid #1e1e1e',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.8)',
-            letterSpacing: '0.05em',
-          },
-          success: {
-            iconTheme: { primary: '#00d4ff', secondary: '#000' },
-          },
-          error: {
-            iconTheme: { primary: '#ff4444', secondary: '#000' },
-          },
-        }}
       />
       <Routes>
         <Route path="/" element={<LandingPage />} />

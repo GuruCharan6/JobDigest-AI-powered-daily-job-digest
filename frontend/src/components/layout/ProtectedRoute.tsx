@@ -13,67 +13,16 @@ export default function ProtectedRoute({
 
   if (loading) {
     return (
-      <div
-        style={{
-          minHeight: '100vh',
-          background: '#000',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          gap: '16px',
-          fontFamily: "'JetBrains Mono', monospace",
-        }}
-      >
-        {/* Terminal-style loader */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '12px', color: '#00d4ff', letterSpacing: '0.1em' }}>
-            JOBFEED
-          </span>
-          <span style={{ fontSize: '12px', color: '#555', letterSpacing: '0.1em' }}>
-            //
-          </span>
-          <span style={{ fontSize: '12px', color: '#555', letterSpacing: '0.1em' }}>
-            authenticating
-          </span>
-          <span
-            style={{
-              display: 'inline-block',
-              width: '8px',
-              height: '14px',
-              background: '#00d4ff',
-              marginLeft: '2px',
-            }}
-            className="animate-blink"
-          />
+      <div className="min-h-screen bg-background flex items-center justify-center flex-col gap-4">
+        <div className="w-9 h-9">
+          <svg viewBox="0 0 36 36" fill="none" className="animate-spin-slow">
+            <circle cx="18" cy="18" r="15" stroke="hsl(var(--border))" strokeWidth="3" />
+            <path d="M18 3a15 15 0 0 1 15 15" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" />
+          </svg>
         </div>
-
-        {/* Progress bar */}
-        <div
-          style={{
-            width: '160px',
-            height: '1px',
-            background: '#1e1e1e',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              height: '100%',
-              background: '#00d4ff',
-              boxShadow: '0 0 8px rgba(0,212,255,0.5)',
-              animation: 'loadbar 1.2s ease-in-out infinite',
-            }}
-          />
-        </div>
-
-        <style>{`
-          @keyframes loadbar {
-            0%   { width: 0%;   margin-left: 0; }
-            50%  { width: 60%;  margin-left: 20%; }
-            100% { width: 0%;   margin-left: 100%; }
-          }
-        `}</style>
+        <span className="text-sm text-muted-foreground font-medium">
+          Loading…
+        </span>
       </div>
     )
   }
@@ -83,15 +32,9 @@ export default function ProtectedRoute({
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#000' }}>
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <main
-        style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '32px 32px',
-        }}
-      >
+      <main className="max-w-[1280px] mx-auto px-6 py-6">
         {children}
       </main>
     </div>

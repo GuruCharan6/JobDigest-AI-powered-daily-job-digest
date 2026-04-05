@@ -123,7 +123,7 @@ export default function OnboardingPage() {
         years_of_experience: data.years_of_experience,
         onboarding_complete: true,
       })
-      showToast.success('Profile saved — welcome to JobFeed')
+      showToast.success('Profile saved — welcome to JobDigest')
       navigate('/dashboard')
     } catch {
       showToast.error('Failed to save. Try again.')

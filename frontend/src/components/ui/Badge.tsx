@@ -2,79 +2,33 @@ import { X } from 'lucide-react'
 
 interface BadgeProps {
   children: React.ReactNode
-  variant?: 'blue' | 'violet' | 'green' | 'orange' | 'default'
+  variant?: 'primary' | 'success' | 'warning' | 'error' | 'outline'
   onRemove?: () => void
   className?: string
 }
 
-const mono = "'JetBrains Mono', monospace"
-
-// All variants use the same base — cyan — just aliased for drop-in compat
-const VARIANT_STYLES: Record<string, React.CSSProperties> = {
-  blue: {
-    background: 'rgba(0,212,255,0.08)',
-    border: '1px solid rgba(0,212,255,0.25)',
-    color: '#00d4ff',
-  },
-  violet: {
-    background: 'rgba(0,212,255,0.06)',
-    border: '1px solid rgba(0,212,255,0.2)',
-    color: '#00d4ff',
-  },
-  green: {
-    background: 'rgba(0,255,136,0.07)',
-    border: '1px solid rgba(0,255,136,0.22)',
-    color: '#00ff88',
-  },
-  orange: {
-    background: 'rgba(255,157,77,0.08)',
-    border: '1px solid rgba(255,157,77,0.25)',
-    color: '#ff9d4d',
-  },
-  default: {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid #1e1e1e',
-    color: '#888',
-  },
+const VARIANT_CLASSES: Record<string, string> = {
+  primary:   'bg-primary/15 text-primary border-primary/30',
+  success:   'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+  warning:   'bg-amber-500/15 text-amber-400 border-amber-500/30',
+  error:     'bg-red-500/15 text-red-400 border-red-500/30',
+  outline:   'bg-transparent border-border text-muted-foreground hover:text-foreground',
 }
 
-export default function Badge({ children, variant = 'blue', onRemove, className = '' }: BadgeProps) {
+export default function Badge({ children, variant = 'primary', onRemove, className = '' }: BadgeProps) {
   return (
     <span
-      className={className}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '5px',
-        padding: '3px 9px',
-        fontFamily: mono,
-        fontSize: '11px',
-        fontWeight: 500,
-        letterSpacing: '0.04em',
-        borderRadius: 0,
-        ...VARIANT_STYLES[variant],
-      }}
+      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium border transition-all duration-150 ${VARIANT_CLASSES[variant]} ${className}`}
     >
       {children}
       {onRemove && (
         <button
           type="button"
           onClick={onRemove}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#555',
-            cursor: 'pointer',
-            padding: 0,
-            display: 'flex',
-            alignItems: 'center',
-            marginLeft: '2px',
-            transition: 'color 0.1s',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#ff4444')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#555')}
+          className="ml-0.5 cursor-pointer text-muted-foreground hover:text-destructive transition-colors duration-150 p-0 flex items-center"
+          aria-label="Remove"
         >
-          <X size={11} strokeWidth={3} />
+          <X size={10} strokeWidth={2} />
         </button>
       )}
     </span>

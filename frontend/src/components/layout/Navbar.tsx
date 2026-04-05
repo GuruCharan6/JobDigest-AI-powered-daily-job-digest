@@ -20,125 +20,40 @@ export default function Navbar() {
   }
 
   return (
-    <nav
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        background: 'rgba(0,0,0,0.95)',
-        backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #1e1e1e',
-        height: '48px',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 32px',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '100%',
-        }}
-      >
+    <nav className="sticky top-0 z-50 liquid-glass">
+      <div className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
           to="/dashboard"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '14px',
-            fontWeight: 700,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            textDecoration: 'none',
-            color: '#00d4ff',
-          }}
+          className="text-lg font-bold tracking-[-0.02em] text-primary no-underline"
         >
-          Job<span style={{ color: '#e0e0e0' }}>Feed</span>
+          Job<span className="text-foreground">Digest</span>
         </Link>
 
         {/* Right side */}
         {user && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="flex items-center gap-4 ml-auto">
             {/* User email */}
             <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '11px',
-                color: '#555',
-                letterSpacing: '0.05em',
-              }}
-              className="hidden sm:flex"
+              className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground"
             >
-              <User size={12} color="#555" />
-              <span>{user.email}</span>
-            </div>
-
-            {/* Status dot */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <div
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  background: '#00d4ff',
-                }}
-                className="animate-pulse-cyan"
-              />
-              <span
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '10px',
-                  letterSpacing: '0.14em',
-                  color: '#555',
-                  textTransform: 'uppercase',
-                }}
-              >
-                LIVE
-              </span>
+              <User size={14} className="text-muted-foreground/60 flex-shrink-0" />
+              <span className="truncate max-w-40">{user.email}</span>
             </div>
 
             {/* Sign out */}
             <button
               onClick={handleLogout}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '10px',
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: '#555',
-                background: 'transparent',
-                border: '1px solid #1e1e1e',
-                padding: '5px 12px',
-                cursor: 'pointer',
-                transition: 'border-color 0.1s, color 0.1s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = '#00d4ff'
-                e.currentTarget.style.color = '#00d4ff'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = '#1e1e1e'
-                e.currentTarget.style.color = '#555'
-              }}
+              className="cursor-pointer inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground border border-border rounded-lg px-3.5 py-1.5 hover:border-primary/30 hover:text-foreground hover:bg-secondary/50 transition-all duration-150 disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <LogOut size={12} />
-              <span className="hidden sm:inline">Sign Out</span>
+              <LogOut size={14} />
+              <span className="hidden sm:inline">Sign out</span>
             </button>
           </div>
         )}
       </div>
+      {/* Gradient divider */}
+      <div className="gradient-divider" />
     </nav>
   )
 }

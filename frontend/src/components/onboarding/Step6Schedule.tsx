@@ -14,20 +14,18 @@ const QUICK_TIMES = [
   { label: 'Evening',    time: '18:00', desc: '6:00 PM'  },
 ]
 
-const mono: React.CSSProperties = { fontFamily: "'JetBrains Mono', monospace" }
-
 function formatTime(t: string) {
   if (!t) return ''
   const [h, m] = t.split(':').map(Number)
   return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`
 }
 
-export default function Step6Schedule({ digestType, digestTime, onTypeChange, onTimeChange }: Props) {
+export default function Step6Schedule({ digestType, onTypeChange, digestTime, onTimeChange }: Props) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', ...mono }}>
+    <div className="flex flex-col gap-4">
 
       {/* Type selection */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', background: '#1e1e1e' }}>
+      <div className="grid grid-cols-2 gap-3">
         {[
           { key: 'daily'  as const, label: 'Daily Digest',  desc: 'Every morning at your chosen time', icon: Sun   },
           { key: 'custom' as const, label: 'Custom Time',   desc: 'Pick your exact preferred time',    icon: Clock },
@@ -38,50 +36,41 @@ export default function Step6Schedule({ digestType, digestTime, onTypeChange, on
               key={key}
               type="button"
               onClick={() => onTypeChange(key)}
-              style={{
-                padding: '20px', cursor: 'pointer', textAlign: 'left',
-                background: active ? 'rgba(0,212,255,0.06)' : '#0a0a0a',
-                border: 'none',
-                borderLeft: `2px solid ${active ? '#00d4ff' : 'transparent'}`,
-                transition: 'background 0.1s, border-color 0.1s',
-                position: 'relative',
-              }}
-              onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#0d0d0d' }}
-              onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#0a0a0a' }}
+              className={`
+                relative p-5 rounded-xl border-[1.5px] text-left cursor-pointer
+                transition-all duration-150
+                ${active
+                  ? 'bg-primary/10 border-primary'
+                  : 'bg-card border-border hover:border-muted-foreground/30 hover:bg-secondary/50'
+                }
+              `}
             >
               {active && (
-                <div style={{
-                  position: 'absolute', top: '10px', right: '10px',
-                  width: '14px', height: '14px', background: '#00d4ff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
-                    <path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <div className="absolute top-3 right-3 w-[18px] h-[18px] rounded-full bg-primary flex items-center justify-center">
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                    <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
               )}
-              <div style={{
-                width: '36px', height: '36px',
-                background: active ? 'rgba(0,212,255,0.1)' : '#111',
-                border: `1px solid ${active ? 'rgba(0,212,255,0.3)' : '#1e1e1e'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: '12px', transition: 'all 0.1s',
-              }}>
-                <Icon size={16} color={active ? '#00d4ff' : '#555'} />
+              <div className={`
+                w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-all duration-150
+                ${active ? 'bg-primary/10' : 'bg-secondary border border-border'}
+              `}>
+                <Icon size={18} className={active ? 'text-primary' : 'text-muted-foreground'} />
               </div>
-              <h3 style={{ fontSize: '12px', fontWeight: 700, color: active ? '#e0e0e0' : '#888', marginBottom: '4px' }}>{label}</h3>
-              <p style={{ fontSize: '11px', color: '#555' }}>{desc}</p>
+              <h3 className={`text-sm font-semibold mb-0.5 ${active ? 'text-foreground' : 'text-secondary-foreground/80'}`}>{label}</h3>
+              <p className="text-xs text-muted-foreground">{desc}</p>
             </button>
           )
         })}
-      </div>
+</div>
 
       {/* Quick presets */}
       <div>
-        <p style={{ fontSize: '10px', color: '#555', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px' }}>
-          // quick_presets
+        <p className="text-xs font-medium text-muted-foreground tracking-wide mb-2">
+          Quick select
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1px', background: '#1e1e1e' }}>
+        <div className="grid grid-cols-4 gap-px bg-border rounded-lg overflow-hidden">
           {QUICK_TIMES.map(({ label, time, desc }) => {
             const active = digestTime === time
             return (
@@ -89,18 +78,13 @@ export default function Step6Schedule({ digestType, digestTime, onTypeChange, on
                 key={time}
                 type="button"
                 onClick={() => onTimeChange(time)}
-                style={{
-                  padding: '12px 8px', cursor: 'pointer', textAlign: 'center',
-                  background: active ? 'rgba(0,212,255,0.06)' : '#0a0a0a',
-                  border: 'none',
-                  borderTop: `2px solid ${active ? '#00d4ff' : 'transparent'}`,
-                  transition: 'background 0.1s, border-color 0.1s',
-                }}
-                onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#0d0d0d' }}
-                onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#0a0a0a' }}
+                className={`
+                  py-3.5 px-2 cursor-pointer text-center transition-all duration-150
+                  ${active ? 'bg-primary/10 border-b-2 border-b-primary' : 'bg-card hover:bg-secondary/50'}
+                `}
               >
-                <p style={{ fontSize: '11px', fontWeight: 700, color: active ? '#00d4ff' : '#888', marginBottom: '3px' }}>{label}</p>
-                <p style={{ fontSize: '10px', color: '#555' }}>{desc}</p>
+                <p className={`text-sm font-bold mb-0.5 ${active ? 'text-primary' : 'text-foreground'}`}>{label}</p>
+                <p className="text-[10px] text-muted-foreground">{desc}</p>
               </button>
             )
           })}
@@ -110,24 +94,16 @@ export default function Step6Schedule({ digestType, digestTime, onTypeChange, on
       {/* Custom time picker */}
       {digestType === 'custom' && (
         <div>
-          <label style={{ fontSize: '10px', color: '#888', letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
-            // set_exact_time
+          <label className="text-xs font-medium text-muted-foreground tracking-wider block mb-1.5">
+            Set exact time
           </label>
-          <div style={{ position: 'relative' }}>
-            <Clock size={14} color="#555" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+          <div className="relative">
+            <Clock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="time"
               value={digestTime}
               onChange={e => onTimeChange(e.target.value)}
-              style={{
-                width: '100%', padding: '10px 12px 10px 36px',
-                background: '#0a0a0a', border: '1px solid #1e1e1e',
-                color: '#e0e0e0', fontSize: '13px', outline: 'none',
-                colorScheme: 'dark', ...mono,
-                transition: 'border-color 0.1s',
-              }}
-              onFocus={e => (e.currentTarget.style.borderColor = '#00d4ff')}
-              onBlur={e => (e.currentTarget.style.borderColor = '#1e1e1e')}
+              className="w-full pl-9 pr-3 py-2.5 bg-card border border-border rounded-lg text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 transition-all duration-150"
             />
           </div>
         </div>
@@ -135,15 +111,13 @@ export default function Step6Schedule({ digestType, digestTime, onTypeChange, on
 
       {/* Summary */}
       {digestTime && (
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '10px',
-          padding: '12px 14px',
-          background: 'rgba(0,212,255,0.04)', border: '1px solid rgba(0,212,255,0.15)',
-        }}>
-          <Zap size={13} color="#00d4ff" />
-          <p style={{ fontSize: '12px', color: '#888' }}>
+        <div className="flex items-center gap-3 p-4 bg-card border border-primary/15 rounded-xl">
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <Zap size={16} className="text-primary" />
+          </div>
+          <p className="text-sm text-secondary-foreground">
             Your digest arrives every day at{' '}
-            <span style={{ color: '#00d4ff', fontWeight: 700 }}>{formatTime(digestTime)}</span>
+            <span className="text-primary font-bold">{formatTime(digestTime)}</span>
           </p>
         </div>
       )}

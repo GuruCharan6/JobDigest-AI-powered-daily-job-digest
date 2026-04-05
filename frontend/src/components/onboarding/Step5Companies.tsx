@@ -11,8 +11,6 @@ const TYPES = [
 
 interface Props { value: string[]; onChange: (v: string[]) => void }
 
-const mono: React.CSSProperties = { fontFamily: "'JetBrains Mono', monospace" }
-
 export default function Step5Companies({ value, onChange }: Props) {
   const toggle = (id: string) => {
     if (id === 'all') { onChange(value.includes('all') ? [] : ['all']); return }
@@ -21,8 +19,8 @@ export default function Step5Companies({ value, onChange }: Props) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', ...mono }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', background: '#1e1e1e' }}>
+    <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-2 gap-3">
         {TYPES.map(({ id, label, desc, icon: Icon }) => {
           const active = value.includes(id)
           return (
@@ -30,48 +28,35 @@ export default function Step5Companies({ value, onChange }: Props) {
               key={id}
               type="button"
               onClick={() => toggle(id)}
-              style={{
-                display: 'flex', alignItems: 'flex-start', gap: '12px',
-                padding: '16px', cursor: 'pointer', textAlign: 'left',
-                background: active ? 'rgba(0,212,255,0.06)' : '#0a0a0a',
-                border: 'none',
-                borderLeft: `2px solid ${active ? '#00d4ff' : 'transparent'}`,
-                transition: 'background 0.1s, border-color 0.1s',
-                position: 'relative',
-              }}
-              onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#0d0d0d' }}
-              onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#0a0a0a' }}
+              className={`
+                relative flex items-start gap-3 p-4 rounded-xl border-[1.5px] text-left cursor-pointer
+                transition-all duration-150
+                ${active
+                  ? 'bg-primary/10 border-primary'
+                  : 'bg-card border-border hover:border-muted-foreground/30 hover:bg-secondary/50'
+                }
+              `}
             >
               {active && (
-                <div style={{
-                  position: 'absolute', top: '10px', right: '10px',
-                  width: '14px', height: '14px', background: '#00d4ff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
-                    <path d="M2 5l2.5 2.5L8 3" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <div className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                    <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
               )}
 
-              <div style={{
-                width: '34px', height: '34px', flexShrink: 0,
-                background: active ? 'rgba(0,212,255,0.1)' : '#111',
-                border: `1px solid ${active ? 'rgba(0,212,255,0.3)' : '#1e1e1e'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginTop: '1px', transition: 'all 0.1s',
-              }}>
-                <Icon size={15} color={active ? '#00d4ff' : '#555'} />
+              <div className={`
+                w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-150 mt-[2px]
+                ${active ? 'bg-primary/10' : 'bg-secondary border border-border'}
+              `}>
+                <Icon size={16} className={active ? 'text-primary' : 'text-muted-foreground'} />
               </div>
 
               <div>
-                <p style={{
-                  fontSize: '12px', fontWeight: 700, marginBottom: '3px',
-                  color: active ? '#e0e0e0' : '#888',
-                }}>
+                <p className={`text-sm font-semibold mb-0.5 ${active ? 'text-foreground' : 'text-secondary-foreground/80'}`}>
                   {label}
                 </p>
-                <p style={{ fontSize: '10px', color: '#555', lineHeight: 1.6 }}>{desc}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
               </div>
             </button>
           )
@@ -79,8 +64,8 @@ export default function Step5Companies({ value, onChange }: Props) {
       </div>
 
       {value.length > 0 && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#00d4ff' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
+        <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           {value.includes('all') ? 'All company types selected' : `${value.length} type${value.length > 1 ? 's' : ''} selected`}
         </div>
       )}
