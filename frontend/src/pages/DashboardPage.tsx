@@ -497,6 +497,11 @@ export default function DashboardPage() {
   const [togglingDigest, setTogglingDigest] = useState(false)
   const [openModal, setOpenModal] = useState<ModalKey | null>(null)
 
+  // Inline name editing
+  const [editingName, setEditingName] = useState(false)
+  const [draftName, setDraftName] = useState('')
+  const [savingName, setSavingName] = useState(false)
+
   useEffect(() => { loadProfile() }, [])
 
   const loadProfile = async () => {
@@ -551,6 +556,31 @@ export default function DashboardPage() {
     }
   }
 
+  const startEditingName = () => {
+    setDraftName(profile.full_name ?? '')
+    setEditingName(true)
+  }
+
+  const cancelEditingName = () => {
+    setEditingName(false)
+  }
+
+  const saveName = async () => {
+    if (!profile || !draftName.trim()) return
+    setSavingName(true)
+    setProfile(prev => prev ? { ...prev, full_name: draftName.trim() } : null)
+    try {
+      await saveProfile({ full_name: draftName.trim() })
+      showToast.success('Name updated')
+      setEditingName(false)
+    } catch {
+      setProfile(profile)
+      showToast.error('Failed to update name')
+    } finally {
+      setSavingName(false)
+    }
+  }
+
   const displayLocations = profile?.locations?.length
     ? profile.locations
     : profile?.location ? [profile.location] : []
@@ -583,9 +613,45 @@ export default function DashboardPage() {
         {/* Row 1: identity + toggle */}
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-[28px] lg:text-[32px] font-bold text-foreground mb-1.5">
-              {profile.full_name ? profile.full_name.split(' ')[0] : 'Dashboard'}
-            </h1>
+            {editingName ? (
+              <div className="flex items-center gap-2 mb-1.5">
+                <input
+                  type="text"
+                  value={draftName}
+                  onChange={e => setDraftName(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') saveName(); if (e.key === 'Escape') cancelEditingName(); }}
+                  autoFocus
+                  className="text-[28px] lg:text-[32px] font-bold text-foreground bg-input/50 border border-border rounded-lg px-3 py-1 outline-none focus:ring-2 focus:ring-ring w-auto min-w-[200px]"
+                />
+                <button
+                  onClick={saveName}
+                  disabled={savingName}
+                  className="px-3 py-1.5 bg-primary text-white text-xs font-semibold uppercase tracking-wider rounded-lg hover:bg-primary/90 transition-all duration-150 cursor-pointer disabled:opacity-40 whitespace-nowrap"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={cancelEditingName}
+                  disabled={savingName}
+                  className="px-3 py-1.5 bg-transparent border border-border text-muted-foreground text-xs font-semibold uppercase tracking-wider rounded-lg hover:border-primary/30 hover:text-foreground transition-all duration-150 cursor-pointer disabled:opacity-40 whitespace-nowrap"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 mb-1.5">
+                <h1 className="text-[28px] lg:text-[32px] font-bold text-foreground">
+                  {profile.full_name ? profile.full_name.split(' ')[0] : 'Dashboard'}
+                </h1>
+                <button
+                  onClick={startEditingName}
+                  className="p-1.5 text-muted-foreground hover:text-primary hover:bg-secondary/50 rounded-md transition-colors duration-150 cursor-pointer flex-shrink-0"
+                  title="Edit display name"
+                >
+                  <Edit2 size={14} />
+                </button>
+              </div>
+            )}
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">
               <Mail size={13} className="text-muted-foreground/60" /> {user?.email}
             </p>
