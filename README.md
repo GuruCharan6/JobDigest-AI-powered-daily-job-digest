@@ -9,10 +9,11 @@
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=flat-square&logo=supabase)](https://supabase.com)
 [![Groq](https://img.shields.io/badge/Groq-LLaMA_3.3_70B-F55036?style=flat-square)](https://groq.com)
 [![Resend](https://img.shields.io/badge/Email-Resend-000000?style=flat-square)](https://resend.com)
+[![Live](https://img.shields.io/badge/Live-Vercel-000000?style=flat-square&logo=vercel)](https://jod-feed-ai-powered-daily-job-diges.vercel.app)
 
 ---
 
-### 🎬 [Watch the Demo on Loom](https://www.loom.com/share/d386efc3bd3346df92d4af82c8b58dfc)
+### 🚀 [Live Demo](https://jod-feed-ai-powered-daily-job-diges.vercel.app) &nbsp;|&nbsp; 🎬 [Watch the Demo on Loom](https://www.loom.com/share/d386efc3bd3346df92d4af82c8b58dfc)
 
 </div>
 
@@ -126,6 +127,7 @@ EMAIL_FROM=digest@yourdomain.com
 ```bash
 uvicorn app.main:app --reload
 ```
+
 ---
 
 ## Scheduling — How It Never Misses Your Time
@@ -173,7 +175,6 @@ Multiple users with different digest times all run through this same flow concur
 ALTER TABLE jobs ADD COLUMN IF NOT EXISTS combo_key text;
 CREATE INDEX IF NOT EXISTS jobs_combo_key_idx ON jobs(combo_key);
 ```
-
 
 ## Environment Variables
 
