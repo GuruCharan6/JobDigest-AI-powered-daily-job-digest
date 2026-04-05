@@ -557,7 +557,7 @@ export default function DashboardPage() {
   }
 
   const startEditingName = () => {
-    setDraftName(profile.full_name ?? '')
+    setDraftName(profile?.full_name ?? '')
     setEditingName(true)
   }
 
@@ -567,6 +567,7 @@ export default function DashboardPage() {
 
   const saveName = async () => {
     if (!profile || !draftName.trim()) return
+    const prev = profile
     setSavingName(true)
     setProfile(prev => prev ? { ...prev, full_name: draftName.trim() } : null)
     try {
@@ -574,7 +575,7 @@ export default function DashboardPage() {
       showToast.success('Name updated')
       setEditingName(false)
     } catch {
-      setProfile(profile)
+      setProfile(prev)
       showToast.error('Failed to update name')
     } finally {
       setSavingName(false)
